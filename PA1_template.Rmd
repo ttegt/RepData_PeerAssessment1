@@ -50,7 +50,8 @@ table(is.na(activity$steps))
 We will replace the missing values with the mean for that 5-minute time interval, rounded to the nearest integer.
 
 ```{r, echo = TRUE}
-# The function impute replaces NA steps values with the rounded mean for the # same time interval (using the intave table from above)
+# The function impute replaces NA steps values with the rounded mean
+#for the same time interval (using the intave table from above)
 
 impute <- function (steps, interval) {
         if (!is.na(steps)) steps 
