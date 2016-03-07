@@ -70,12 +70,12 @@ table(is.na(activity$steps))
 ## 15264  2304
 ```
 
-We will replace the missing values with the mean for that 5-minute time interval, rounded to the nearest integer.
+We will replace each missing value with the mean for its 5-minute time interval, rounded to the nearest integer.
 
 
 ```r
 # The function impute replaces NA steps values with the rounded mean
-#for the same time interval (using the intave table from above)
+# for the same time interval (using the intave table from above)
 
 impute <- function (steps, interval) {
         if (!is.na(steps)) steps 
@@ -131,7 +131,8 @@ iactivity$wknd <- as.factor(iactivity$wknd)
 #find the mean by interval and wknd factor
 iagg<-aggregate(steps ~ interval + wknd, data = iactivity, mean)
 
-xyplot(steps~interval|wknd, data=iagg, type = "l", layout = c(1,2))
+xyplot(steps~interval|wknd, data=iagg, type = "l", layout = c(1,2),
+       main = "Average steps per time interval")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)
