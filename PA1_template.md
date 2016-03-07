@@ -1,33 +1,41 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-author: Tom Tegtmeyer
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
+Tom Tegtmeyer  
 
 
 ## Loading and preprocessing the data
-```{r, echo = TRUE}
-activity <- read.csv(unz("activity.zip", "activity.csv"))
 
+```r
+activity <- read.csv(unz("activity.zip", "activity.csv"))
 ```
 
 ## What is mean total number of steps taken per day?
 
-```{r, echo = TRUE}
+
+```r
 daysum <- aggregate(steps ~ date, data = activity, sum) #aggregate steps by date
 library(lattice)
 with(daysum, histogram(steps,  main = "Histogram of total daily steps"))
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)
+
 What are the mean and median number of total daily steps?
-```{r, echo = TRUE}
+
+```r
 mean(daysum$steps); median(daysum$steps)
 ```
 
+```
+## [1] 10766.19
+```
+
+```
+## [1] 10765
+```
+
 ## What is the average daily activity pattern?
-```{r, echo = TRUE}
+
+```r
 intave <- aggregate(steps ~ interval, data = activity, mean) #aggregate steps by interval
 with(intave, xyplot(steps ~ interval, type = "l", 
                   xlab = "Total steps", 
@@ -35,21 +43,37 @@ with(intave, xyplot(steps ~ interval, type = "l",
                   main = "Average steps per time interval"))
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)
+
 Which time interval has the highest average number of steps? 
 
-```{r, echo = TRUE}
+
+```r
 mint<-which.max(intave$steps)
 intave[mint,]
 ```
+
+```
+##     interval    steps
+## 104      835 206.1698
+```
 ## Imputing missing values
 How many missing values are there (missing = "TRUE")?
-```{r, echo = TRUE}
+
+```r
 table(is.na(activity$steps))
+```
+
+```
+## 
+## FALSE  TRUE 
+## 15264  2304
 ```
 
 We will replace the missing values with the mean for that 5-minute time interval, rounded to the nearest integer.
 
-```{r, echo = TRUE}
+
+```r
 # The function impute replaces NA steps values with the rounded mean for the same time interval (using the intave table from above)
 
 impute <- function (steps, interval) {
@@ -67,16 +91,28 @@ idaysum <- aggregate(steps ~ date, data = iactivity, sum)
 with(idaysum, histogram(steps,  main = "Histogram of total daily steps"))
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)
+
 What are the mean and median values using the imputed data?
 
-```{r, echo = TRUE}
+
+```r
 mean(idaysum$steps); median(idaysum$steps)
+```
+
+```
+## [1] 10765.64
+```
+
+```
+## [1] 10762
 ```
 
 Note that the mean differs slightly from the earlier mean. This is because the imputed values were rounded to the nearest integer. The median happens to be the total number of steps for a day of imputed values.
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r, echo = TRUE}
+
+```r
 #the weekend function determines whether a date is a weekday or weekend.
 weekend <- function (date) {if (weekdays(date) %in% c("Saturday","Sunday"))
         "weekend"
@@ -96,5 +132,7 @@ iagg<-aggregate(steps ~ interval + wknd, data = iactivity, mean)
 
 xyplot(steps~interval|wknd, data=iagg, type = "l", layout = c(1,2))
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)
 
 The individual seems to get moving earlier and has a higher peak number of steps on weekdays.
