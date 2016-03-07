@@ -57,6 +57,8 @@ intave[mint,]
 ##     interval    steps
 ## 104      835 206.1698
 ```
+It appears the 8:35-8:40 time interval has the highest average number of steps at around 206 steps.
+
 ## Imputing missing values
 How many missing values are there (missing = "TRUE")?
 
@@ -69,6 +71,8 @@ table(is.na(activity$steps))
 ## FALSE  TRUE 
 ## 15264  2304
 ```
+
+There are 2304 missing steps values.
 
 We will replace each missing value with the mean for its 5-minute time interval, rounded to the nearest integer.
 
@@ -109,13 +113,13 @@ mean(idaysum$steps); median(idaysum$steps)
 ## [1] 10762
 ```
 
-Note that the mean differs slightly from the earlier mean. This is because the imputed values were rounded to the nearest integer. The median happens to be the total number of steps for a day of imputed values.
+Note that the mean differs slightly from the earlier mean of 10766.19 steps. This is because the imputed values were rounded to the nearest integer. The median now happens to be the total number of steps for a day of imputed values, as we added 8 days with a total of 10762 steps each to basically the middle of the daily totals.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ```r
 #the weekend function determines whether a date is a weekday or weekend.
-weekend <- function (date) {if (weekdays(date) %in% c("Saturday","Sunday"))
+weekend <- function (date) {if (weekdays(date) %in% c("Saturday", "Sunday"))
         "weekend"
         else "weekday"
 }
@@ -137,4 +141,4 @@ xyplot(steps~interval|wknd, data=iagg, type = "l", layout = c(1,2),
 
 ![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)
 
-The individual seems to get moving earlier and has a higher peak number of steps on weekdays.
+The individual seems to get moving earlier and has a higher peak number of steps on weekdays, but is less active after the peak.
