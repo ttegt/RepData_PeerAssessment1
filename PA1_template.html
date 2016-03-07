@@ -103,7 +103,7 @@ intave[mint,]</code></pre>
 ## FALSE  TRUE 
 ## 15264  2304</code></pre>
 <p>We will replace the missing values with the mean for that 5-minute time interval, rounded to the nearest integer.</p>
-<pre class="r"><code># The function impute replaces NA steps values with the rounded mean for the same time interval (using the intave table from above)
+<pre class="r"><code># The function impute replaces NA steps values with the rounded mean for the # same time interval (using the intave table from above)
 
 impute &lt;- function (steps, interval) {
         if (!is.na(steps)) steps 
