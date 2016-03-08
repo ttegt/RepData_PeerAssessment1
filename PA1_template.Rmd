@@ -8,26 +8,26 @@ output:
 
 
 ## Loading and preprocessing the data
-```{r, echo = TRUE}
+```{r}
 activity <- read.csv(unz("activity.zip", "activity.csv"))
 
 ```
 
 ## What is mean total number of steps taken per day?
 
-```{r, echo = TRUE}
+```{r}
 daysum <- aggregate(steps ~ date, data = activity, sum) #aggregate steps by date
 library(lattice)
 with(daysum, histogram(steps,  main = "Histogram of total daily steps"))
 ```
 
 What are the mean and median number of total daily steps?
-```{r, echo = TRUE}
+```{r}
 mean(daysum$steps); median(daysum$steps)
 ```
 
 ## What is the average daily activity pattern?
-```{r, echo = TRUE}
+```{r}
 intave <- aggregate(steps ~ interval, data = activity, mean) #aggregate steps by interval
 with(intave, xyplot(steps ~ interval, type = "l", 
                   xlab = "Total steps", 
@@ -37,7 +37,7 @@ with(intave, xyplot(steps ~ interval, type = "l",
 
 Which time interval has the highest average number of steps? 
 
-```{r, echo = TRUE}
+```{r}
 mint<-which.max(intave$steps)
 intave[mint,]
 ```
@@ -45,7 +45,7 @@ It appears the 8:35-8:40 time interval has the highest average number of steps a
 
 ## Imputing missing values
 How many missing values are there (missing = "TRUE")?
-```{r, echo = TRUE}
+```{r}
 table(is.na(activity$steps))
 ```
 
@@ -53,7 +53,7 @@ There are 2304 missing steps values.
 
 We will replace each missing value with the mean for its 5-minute time interval, rounded to the nearest integer.
 
-```{r, echo = TRUE}
+```{r}
 # The function impute replaces NA steps values with the rounded mean
 # for the same time interval (using the intave table from above)
 
@@ -74,14 +74,14 @@ with(idaysum, histogram(steps,  main = "Histogram of total daily steps"))
 
 What are the mean and median values using the imputed data?
 
-```{r, echo = TRUE}
+```{r}
 mean(idaysum$steps); median(idaysum$steps)
 ```
 
 Note that the mean differs slightly from the earlier mean of 10766.19 steps. This is because the imputed values were rounded to the nearest integer. The median now happens to be the total number of steps for a day of imputed values, as we added 8 days with a total of 10762 steps each to basically the middle of the daily totals.
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r, echo = TRUE}
+```{r}
 #the weekend function determines whether a date is a weekday or weekend.
 weekend <- function (date) {if (weekdays(date) %in% c("Saturday", "Sunday"))
         "weekend"
