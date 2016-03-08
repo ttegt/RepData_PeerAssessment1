@@ -57,7 +57,7 @@ intave[mint,]
 ##     interval    steps
 ## 104      835 206.1698
 ```
-It appears the 8:35-8:40 time interval has the highest average number of steps at around 206 steps.
+It appears that the 8:35-8:40 time interval has the highest average number of steps at around 206 steps.
 
 ## Imputing missing values
 How many missing values are there (missing = "TRUE")?
